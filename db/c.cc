@@ -4343,6 +4343,8 @@ size_t rocksdb_cache_get_capacity(rocksdb_cache_t* cache) {
 }
 
 size_t rocksdb_cache_get_usage(rocksdb_cache_t* cache) {
+  size_t usage = cache->rep->GetUsage();
+  printf("[yukun]cache usage:%ld", usage);
   return cache->rep->GetUsage();
 }
 
