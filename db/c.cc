@@ -4315,6 +4315,7 @@ void rocksdb_lru_cache_options_set_memory_allocator(
 
 rocksdb_cache_t* rocksdb_cache_create_lru(size_t capacity) {
   rocksdb_cache_t* c = new rocksdb_cache_t;
+  printf("[yukun]rocksdb_cache_create_lru: %ld\n", capacity);
   c->rep = NewLRUCache(capacity);
   return c;
 }
@@ -4344,7 +4345,7 @@ size_t rocksdb_cache_get_capacity(rocksdb_cache_t* cache) {
 
 size_t rocksdb_cache_get_usage(rocksdb_cache_t* cache) {
   size_t usage = cache->rep->GetUsage();
-  printf("[yukun]cache usage:%ld", usage);
+  printf("[yukun]cache usage:%ld\n", usage);
   return cache->rep->GetUsage();
 }
 
