@@ -273,6 +273,7 @@ void LRUCacheShard::MaintainPoolSize() {
 void LRUCacheShard::EvictFromLRU(size_t charge,
                                  autovector<LRUHandle*>* deleted) {
   while ((usage_ + charge) > capacity_ && lru_.next != &lru_) {
+    printf("[yukun]LRUCacheShard::EvictFromLRU, Usage is %ld, charge is %ld\n", usage_, charge);
     LRUHandle* old = lru_.next;
     // LRU list contains only elements which can be evicted
     assert(old->InCache() && !old->HasRefs());
@@ -283,10 +284,12 @@ void LRUCacheShard::EvictFromLRU(size_t charge,
     assert(usage_ >= old_total_charge);
     usage_ -= old_total_charge;
     deleted->push_back(old);
+    printf("[yukun]LRUCacheShard::EvictFromLRU finish\n");
   }
 }
 
 void LRUCacheShard::SetCapacity(size_t capacity) {
+  printf("[yukun]LRUCacheShard::SetCapacity, capacity is %ld\n", capacity);
   autovector<LRUHandle*> last_reference_list;
   {
     MutexLock l(&mutex_);
