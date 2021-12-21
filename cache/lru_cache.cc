@@ -272,6 +272,7 @@ void LRUCacheShard::MaintainPoolSize() {
 
 void LRUCacheShard::EvictFromLRU(size_t charge,
                                  autovector<LRUHandle*>* deleted) {
+  printf("[yukun]LRUCacheShard::EvictFromLRU before while, Usage is %ld, charge is %ld\n", usage_, charge);    
   while ((usage_ + charge) > capacity_ && lru_.next != &lru_) {
     printf("[yukun]LRUCacheShard::EvictFromLRU, Usage is %ld, charge is %ld\n", usage_, charge);
     LRUHandle* old = lru_.next;
