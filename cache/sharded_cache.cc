@@ -40,6 +40,7 @@ void ShardedCache::SetCapacity(size_t capacity) {
   uint32_t num_shards = GetNumShards();
   const size_t per_shard = (capacity + (num_shards - 1)) / num_shards;
   MutexLock l(&capacity_mutex_);
+  printf("[yukun]ShardedCache::SetCapacity, capacity is %ld, nub_shards is %ld\n", capacity, num_shards);
   for (uint32_t s = 0; s < num_shards; s++) {
     GetShard(s)->SetCapacity(per_shard);
   }
