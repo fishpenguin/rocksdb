@@ -327,7 +327,7 @@ Status LRUCacheShard::InsertItem(LRUHandle* e, Cache::Handle** handle,
 
   {
     MutexLock l(&mutex_);
-    printf("[yukun]In insert item, total_charge is %ld, strict_capacity_limit i %d\n", total_charge, strict_capacity_limit_);
+    printf("[yukun]In insert item, total_charge is %ld, strict_capacity_limit is %d\n", total_charge, strict_capacity_limit_);
 
     // Free the space following strict LRU policy until enough space
     // is freed or the lru list is empty
@@ -785,7 +785,7 @@ std::shared_ptr<Cache> NewLRUCache(
   }
   printf("[yukun]NewLRUCache, num_shard_bits is %d\n", num_shard_bits);
   return std::make_shared<LRUCache>(
-      capacity, num_shard_bits, true, high_pri_pool_ratio,
+      capacity, num_shard_bits, strict_capacity_limit, high_pri_pool_ratio,
       std::move(memory_allocator), use_adaptive_mutex, metadata_charge_policy,
       secondary_cache);
 }
