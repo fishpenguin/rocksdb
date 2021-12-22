@@ -234,6 +234,7 @@ void LRUCacheShard::LRU_Remove(LRUHandle* e) {
 void LRUCacheShard::LRU_Insert(LRUHandle* e) {
   assert(e->next == nullptr);
   assert(e->prev == nullptr);
+  printf("[yukun]LRU_Insert before insert\n");
   size_t total_charge = e->CalcTotalCharge(metadata_charge_policy_);
   if (high_pri_pool_ratio_ > 0 && (e->IsHighPri() || e->HasHit())) {
     // Inset "e" to head of LRU list.
@@ -244,6 +245,7 @@ void LRUCacheShard::LRU_Insert(LRUHandle* e) {
     e->SetInHighPriPool(true);
     high_pri_pool_usage_ += total_charge;
     MaintainPoolSize();
+    printf("[yukun]LRU_Insert, in if\n");
   } else {
     // Insert "e" to the head of low-pri pool. Note that when
     // high_pri_pool_ratio is 0, head of low-pri pool is also head of LRU list.
@@ -253,6 +255,7 @@ void LRUCacheShard::LRU_Insert(LRUHandle* e) {
     e->next->prev = e;
     e->SetInHighPriPool(false);
     lru_low_pri_ = e;
+    printf("[yukun]LRU_Insert, in second\n");
   }
   lru_usage_ += total_charge;
 }
@@ -272,7 +275,7 @@ void LRUCacheShard::MaintainPoolSize() {
 
 void LRUCacheShard::EvictFromLRU(size_t charge,
                                  autovector<LRUHandle*>* deleted) {
-  printf("[yukun]LRUCacheShard::EvictFromLRU before while, Usage is %ld, charge is %ld, capacity is %ld\n", usage_, charge, capacity_);    
+  printf("[yukun]LRUCacheShard::EvictFromLRU before while, Usage is %ld, charge is %ld, capacity is %ld, lru next is %p\n", usage_, charge, capacity_);    
   while ((usage_ + charge) > capacity_ && lru_.next != &lru_) {
     printf("[yukun]LRUCacheShard::EvictFromLRU, Usage is %ld, charge is %ld\n", usage_, charge);
     LRUHandle* old = lru_.next;
