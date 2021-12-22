@@ -232,9 +232,9 @@ void LRUCacheShard::LRU_Remove(LRUHandle* e) {
 }
 
 void LRUCacheShard::LRU_Insert(LRUHandle* e) {
+  printf("[yukun]LRU_Insert before insert\n");
   assert(e->next == nullptr);
   assert(e->prev == nullptr);
-  printf("[yukun]LRU_Insert before insert\n");
   size_t total_charge = e->CalcTotalCharge(metadata_charge_policy_);
   if (high_pri_pool_ratio_ > 0 && (e->IsHighPri() || e->HasHit())) {
     // Inset "e" to head of LRU list.
@@ -327,6 +327,7 @@ Status LRUCacheShard::InsertItem(LRUHandle* e, Cache::Handle** handle,
 
   {
     MutexLock l(&mutex_);
+    printf("[yukun]In insert item, total_charge is %ld, strict_capacity_limit i %d\n", total_charge, strict_capacity_limit_);
 
     // Free the space following strict LRU policy until enough space
     // is freed or the lru list is empty
@@ -365,6 +366,7 @@ Status LRUCacheShard::InsertItem(LRUHandle* e, Cache::Handle** handle,
           last_reference_list.push_back(old);
         }
       }
+      printf("[yukun]In insert item, in if\n");
       if (handle == nullptr) {
         LRU_Insert(e);
       } else {
