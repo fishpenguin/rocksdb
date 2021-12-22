@@ -785,7 +785,7 @@ std::shared_ptr<Cache> NewLRUCache(
   }
   printf("[yukun]NewLRUCache, num_shard_bits is %d\n", num_shard_bits);
   return std::make_shared<LRUCache>(
-      capacity, num_shard_bits, strict_capacity_limit, high_pri_pool_ratio,
+      capacity, num_shard_bits, true, high_pri_pool_ratio,
       std::move(memory_allocator), use_adaptive_mutex, metadata_charge_policy,
       secondary_cache);
 }
