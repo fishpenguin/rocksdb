@@ -111,6 +111,7 @@ struct LRUHandle {
   bool Unref() {
     assert(refs > 0);
     refs--;
+    printf("[yukun]In Unref, refs is %d\n", refs);
     return refs == 0;
   }
 

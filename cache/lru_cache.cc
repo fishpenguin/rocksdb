@@ -503,6 +503,7 @@ Cache::Handle* LRUCacheShard::Lookup(
 bool LRUCacheShard::Ref(Cache::Handle* h) {
   LRUHandle* e = reinterpret_cast<LRUHandle*>(h);
   MutexLock l(&mutex_);
+  printf("[yukun]In ref\n")
   // To create another reference - entry must be already externally referenced
   assert(e->HasRefs());
   e->Ref();
