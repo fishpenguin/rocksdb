@@ -105,7 +105,10 @@ struct LRUHandle {
   Slice key() const { return Slice(key_data, key_length); }
 
   // Increase the reference count by 1.
-  void Ref() { refs++; }
+  void Ref() { 
+    printf("[yukun]In inner ref, refs is %d\n", refs);
+    refs++; 
+  }
 
   // Just reduce the reference count by 1. Return true if it was last reference.
   bool Unref() {
